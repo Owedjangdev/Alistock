@@ -1,7 +1,8 @@
 "use server"
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import prisma from "@/lib/prisma"
-import { Category, Transaction } from "@prisma/client"
+import { Category } from "@prisma/client"
 import { FormDataType, Product } from "../../type"
 
 export async function checkAndAddAssociation(email: string, name: string) {

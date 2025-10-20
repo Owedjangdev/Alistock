@@ -18,8 +18,7 @@ import {
   MessageSquare, 
   Gift,
   Users,
-  Package,
-  TrendingUp
+  Package
 } from "lucide-react";
 
 interface CartItem {
@@ -74,7 +73,6 @@ const Page = () => {
   };
 
   useEffect(() => {
-    console.log("Give page loaded, email:", email);
     if (email) {
       fetchData();
     }
@@ -157,9 +155,9 @@ const Page = () => {
       
       // Redirect to transactions
       router.push('/transactions');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Erreur lors du don:", error);
-      toast.error(error.message || "Erreur lors du don");
+      toast.error("Erreur lors du don");
     } finally {
       setSubmitting(false);
     }

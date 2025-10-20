@@ -4,7 +4,7 @@ import { useUser } from "@clerk/nextjs";
 import { useEffect, useMemo, useState } from "react";
 import { readProducts, readTransactions, getTransactionStats, getGiveStats } from "../action";
 import { Package, TrendingUp, TrendingDown, Heart, Boxes, AlertTriangle, CalendarDays, Activity, PieChart } from "lucide-react";
-import { Product, TransactionType } from "../../../type";
+import { Product } from "../../../type";
 
 type DailyPoint = { date: string; add: number; remove: number; give: number };
 
@@ -14,9 +14,9 @@ const Page = () => {
 
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
-  const [transactions, setTransactions] = useState<any[]>([]);
-  const [txnStats, setTxnStats] = useState<any | null>(null);
-  const [giveStats, setGiveStats] = useState<any | null>(null);
+  const [transactions, setTransactions] = useState<Array<{ id: string; type: string; quantity: number; createdAt: string; productName: string; categoryName?: string; productUnit: string }>>([]);
+  const [txnStats, setTxnStats] = useState<{ totalTransactions: number; addTransactions: number; removeTransactions: number; totalQuantityAdded: number; totalQuantityRemoved: number; giveTransactions: number; totalQuantityGiven: number } | null>(null);
+  const [giveStats, setGiveStats] = useState<{ totalGiveTransactions: number; totalQuantityGiven: number; uniqueRecipients: number } | null>(null);
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [categoryFilter, setCategoryFilter] = useState<string>("");
@@ -39,7 +39,7 @@ const Page = () => {
         if (t) setTransactions(t);
         if (ts) setTxnStats(ts);
         if (gs) setGiveStats(gs);
-      } catch (e) {
+      } catch {
         // noop; handled by UI states
       } finally {
         setLoading(false);
@@ -64,23 +64,23 @@ const Page = () => {
   const filteredTransactions = useMemo(() => {
     let list = [...transactions];
     if (categoryFilter) {
-      list = list.filter((t: any) => (t.categoryName || "") === categoryFilter);
+      list = list.filter((t) => (t.categoryName || "") === categoryFilter);
     }
     if (typeFilter) {
-      list = list.filter((t: any) => t.type === typeFilter);
+      list = list.filter((t) => t.type === typeFilter);
     }
     if (startDate) {
       const s = new Date(startDate);
-      list = list.filter((t: any) => new Date(t.createdAt) >= s);
+      list = list.filter((t) => new Date(t.createdAt) >= s);
     }
     if (endDate) {
       const e = new Date(endDate);
       // inclure la fin de journée
       e.setHours(23, 59, 59, 999);
-      list = list.filter((t: any) => new Date(t.createdAt) <= e);
+      list = list.filter((t) => new Date(t.createdAt) <= e);
     }
     return list;
-  }, [transactions, categoryFilter, startDate, endDate]);
+  }, [transactions, categoryFilter, startDate, endDate, typeFilter]);
 
   const recentTransactions = useMemo(() => {
     const start = (page - 1) * pageSize;
@@ -91,7 +91,7 @@ const Page = () => {
 
   const dailySeries: DailyPoint[] = useMemo(() => {
     const map = new Map<string, DailyPoint>();
-    for (const tx of filteredTransactions as any[]) {
+    for (const tx of filteredTransactions) {
       const d = new Date(tx.createdAt);
       const key = d.toISOString().slice(0, 10);
       const entry = map.get(key) || { date: key, add: 0, remove: 0, give: 0 };
@@ -110,12 +110,12 @@ const Page = () => {
   }, [dailySeries]);
 
   const localTxnSummary = useMemo(() => {
-    const addTransactions = filteredTransactions.filter((t: any) => t.type === "ADD").length;
-    const removeTransactions = filteredTransactions.filter((t: any) => t.type === "REMOVE").length;
-    const giveTransactions = filteredTransactions.filter((t: any) => t.type === "GIVE").length;
-    const totalQuantityAdded = filteredTransactions.filter((t: any) => t.type === "ADD").reduce((s: number, t: any) => s + t.quantity, 0);
-    const totalQuantityRemoved = filteredTransactions.filter((t: any) => t.type === "REMOVE").reduce((s: number, t: any) => s + t.quantity, 0);
-    const totalQuantityGiven = filteredTransactions.filter((t: any) => t.type === "GIVE").reduce((s: number, t: any) => s + t.quantity, 0);
+    const addTransactions = filteredTransactions.filter((t) => t.type === "ADD").length;
+    const removeTransactions = filteredTransactions.filter((t) => t.type === "REMOVE").length;
+    const giveTransactions = filteredTransactions.filter((t) => t.type === "GIVE").length;
+    const totalQuantityAdded = filteredTransactions.filter((t) => t.type === "ADD").reduce((s, t) => s + t.quantity, 0);
+    const totalQuantityRemoved = filteredTransactions.filter((t) => t.type === "REMOVE").reduce((s, t) => s + t.quantity, 0);
+    const totalQuantityGiven = filteredTransactions.filter((t) => t.type === "GIVE").reduce((s, t) => s + t.quantity, 0);
     return { addTransactions, removeTransactions, giveTransactions, totalQuantityAdded, totalQuantityRemoved, totalQuantityGiven };
   }, [filteredTransactions]);
 
@@ -147,7 +147,7 @@ const Page = () => {
 
   const topDonatedProducts = useMemo(() => {
     const map = new Map<string, { name: string; qty: number }>();
-    for (const t of filteredTransactions as any[]) {
+    for (const t of filteredTransactions) {
       if (t.type !== "GIVE") continue;
       const key = t.productName;
       map.set(key, { name: key, qty: (map.get(key)?.qty || 0) + t.quantity });

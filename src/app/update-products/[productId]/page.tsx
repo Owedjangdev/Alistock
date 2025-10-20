@@ -104,9 +104,9 @@ const Page = ({ params }: { params: Promise<{ productId: string }> }) => {
                 toast.success("Produit mis à jour avec succès !")
                 router.push("/products")
             }
-        } catch (error: any) {
+    } catch (error: unknown) {
             console.error(error)
-            toast.error(error.message)
+            toast.error("Erreur lors de la mise à jour")
         }
     }
 

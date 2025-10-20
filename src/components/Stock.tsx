@@ -83,9 +83,9 @@ const router = useRouter();
       }
       
       router.push('/products');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Erreur lors de la mise à jour du stock:", error);
-      toast.error(error.message || "Erreur lors de la mise à jour du stock");
+      toast.error("Erreur lors de la mise à jour du stock");
     } finally {
       setLoading(false);
     }
