@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# AliStock – Gestion de stock pour associations
 
-First, run the development server:
+Suivez vos produits, catégories, stocks et dons avec une interface moderne.
+
+</div>
+
+## Aperçu
+
+- Dashboard avec indicateurs clés, graphiques et activité récente
+- Gestion des produits et catégories
+- Mouvements de stock (ajout, retrait) + Dons multi-produits
+- Upload d’images, toasts de notifications, thème DaisyUI
+
+## Stack
+
+- Next.js, React, TypeScript
+- Prisma (SQLite dev), Clerk (auth)
+- Tailwind CSS v4, DaisyUI, Lucide Icons
+
+## Prérequis
+
+- Node.js 18+
+- Variables d’environnement:
+  - `DATABASE_URL="file:./prisma/dev.db"`
+  - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=...`
+  - `CLERK_SECRET_KEY=...`
+
+## Installation
 
 ```bash
+npm install
+npx prisma generate
+npx prisma migrate dev --name init
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Application: http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` – développement
+- `npm run build` – build production
+- `npm run start` – serveur production
+- `npm run lint` – lint
 
-## Learn More
+## Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/
+    dashboard/         # Tableau de bord
+    give/              # Page de dons multi-produits
+    products/          # Liste produits
+    new-product/       # Création produit
+    category/          # Catégories
+    transactions/      # Historique
+    api/upload/        # Upload images
+  components/          # UI (Wrapper, NavBar, etc.)
+  lib/prisma.ts        # Client Prisma
+prisma/schema.prisma   # Modèle de données
+public/uploads/        # Images
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Captures d’écran
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Ajoutez vos images dans `public/` et référencez-les ici (exemples):
 
-## Deploy on Vercel
+![Dashboard](public/next.svg)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Déploiement
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Configurer les variables d’environnement (DB, Clerk)
+- Exécuter `npm run build` puis `npm run start`
+
+## Publier sur GitHub
+
+```bash
+git init
+git add .
+git commit -m "Initial commit: AliStock"
+git branch -M main
+git remote add origin https://github.com/<user>/<repo>.git
+git push -u origin main
+```
+
+## Licence
+
+MIT
