@@ -6,65 +6,61 @@ import { ArrowRight, Package, Heart, TrendingUp, Users, Sparkles, CheckCircle } 
 export default function Home() {
   return (
     <Wrapper>
-      {/* HERO SECTION - MODERNE & IMPACT */}
-      <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 py-16 md:py-24 relative overflow-hidden">
-        {/* Fond animé */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      {/* HERO SECTION - CLEAN & MODERN */}
+      <section className="min-h-screen flex flex-col justify-center items-center px-4 py-16 md:py-0 relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100">
+        {/* Subtle background elements */}
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl"></div>
         </div>
 
-        <div className="max-w-5xl mx-auto space-y-8">
-          {/* Badge animé */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 animate-fade-in">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">AliStock — Gestion & Solidarité</span>
+        <div className="max-w-4xl mx-auto space-y-10">
+          {/* Badge moderne */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-slate-900/5 border border-slate-200 text-xs font-semibold text-slate-700">
+            <Sparkles className="w-3 h-3" />
+            Gestion de stocks pour associations
           </div>
 
-          {/* Titre principal */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-fade-in-up">
-            Gérez. Donnez.<br />
-            <span className="text-foreground">Changez des vies.</span>
+          {/* Titre principal - Minimaliste & Puissant */}
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight text-slate-900">
+            Gérez vos stocks,<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-600">maximisez vos dons.</span>
           </h1>
 
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto animate-fade-in-up animation-delay-300">
-            Suivez vos stocks en temps réel, optimisez vos dons, et mesurez votre impact solidaire avec une interface simple et puissante.
+          <p className="text-lg text-slate-600 max-w-2xl">
+            Une plateforme simple et puissante pour suivre vos inventaires, optimiser vos dons et mesurer votre impact social en temps réel.
           </p>
 
-          {/* Boutons CTA */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-500">
+          {/* Boutons CTA - Design épuré */}
+          <div className="flex flex-col sm:flex-row gap-3 pt-6">
             <Link
               href="/dashboard"
-              className="group btn btn-primary btn-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+              className="px-8 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
             >
-              Voir mon tableau de bord
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              Accéder au dashboard
+              <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
               href="/give"
-              className="btn btn-outline btn-lg hover:btn-primary transition-all duration-300 flex items-center gap-2"
+              className="px-8 py-3 bg-white text-slate-900 border-2 border-slate-900 rounded-lg font-semibold hover:bg-slate-50 transition-all duration-300 flex items-center justify-center gap-2"
             >
-              <Heart className="w-5 h-5" />
+              <Heart className="w-5 h-5 text-red-500" />
               Faire un don
             </Link>
           </div>
 
-          {/* Stats animées au scroll */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
+          {/* Stats - Layout amélioré */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-12 border-t border-slate-200">
             {[
-              { icon: Package, value: "1 200+", label: "Produits gérés" },
-              { icon: Heart, value: "850+", label: "Dons effectués" },
+              { icon: Package, value: "1 200+", label: "Articles" },
+              { icon: Heart, value: "850+", label: "Dons" },
               { icon: Users, value: "120+", label: "Bénéficiaires" },
-              { icon: TrendingUp, value: "99%", label: "Satisfaction" },
+              { icon: TrendingUp, value: "99%", label: "Uptime" },
             ].map((stat, i) => (
-              <div
-                key={i}
-                className="text-center animate-fade-in-up"
-                style={{ animationDelay: `${700 + i * 100}ms` }}
-              >
-                <stat.icon className="w-8 h-8 mx-auto mb-2 text-primary" />
-                <div className="text-3xl font-bold text-foreground">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
+              <div key={i} className="text-center">
+                <stat.icon className="w-6 h-6 mx-auto mb-3 text-slate-400" />
+                <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
+                <div className="text-sm text-slate-500 mt-1">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -72,14 +68,14 @@ export default function Home() {
       </section>
 
       {/* SECTION FONCTIONNALITÉS */}
-      <section className="py-20 px-4 bg-base-200/50">
+      <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
               Tout ce dont vous avez besoin
             </h2>
-            <p className="text-muted-foreground text-lg">
-              Une solution complète, pensée pour les associations
+            <p className="text-slate-600 text-lg">
+              Une solution complète conçue pour les associations
             </p>
           </div>
 
@@ -87,110 +83,72 @@ export default function Home() {
             {[
               {
                 title: "Gestion intuitive",
-                desc: "Ajoutez, modifiez, supprimez vos produits en 3 clics.",
+                desc: "Ajoutez, modifiez et suivez vos produits simplement.",
                 icon: Package,
-                color: "text-primary",
+                bg: "bg-blue-50",
+                color: "text-blue-600",
               },
               {
                 title: "Dons tracés",
-                desc: "Chaque don est enregistré avec bénéficiaire et quantité.",
+                desc: "Enregistrez chaque don avec bénéficiaire et détails.",
                 icon: Heart,
-                color: "text-red-500",
+                bg: "bg-red-50",
+                color: "text-red-600",
               },
               {
-                title: "Stats en temps réel",
-                desc: "Tableau de bord clair avec graphiques et alertes stock.",
+                title: "Analytics en temps réel",
+                desc: "Tableaux de bord clairs avec graphiques et alertes.",
                 icon: TrendingUp,
-                color: "text-success",
+                bg: "bg-emerald-50",
+                color: "text-emerald-600",
               },
             ].map((feature, i) => (
               <div
                 key={i}
-                className="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-base-300"
+                className="p-8 bg-white border border-slate-200 rounded-xl hover:shadow-lg transition-all duration-300"
               >
-                <div className="card-body p-8 text-center">
-                  <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-base-200 flex items-center justify-center ${feature.color}`}>
-                    <feature.icon className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.desc}</p>
+                <div className={`w-14 h-14 rounded-lg ${feature.bg} flex items-center justify-center mb-5`}>
+                  <feature.icon className={`w-7 h-7 ${feature.color}`} />
                 </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
+                <p className="text-slate-600">{feature.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SECTION TÉMOIGNAGE */}
-      <section className="py-20 px-4">
+      {/* SECTION CTA FINALE */}
+      <section className="py-24 px-4 bg-gradient-to-br from-slate-900 to-slate-800">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 mb-6">
-            <div className="avatar-group -space-x-4">
-              <div className="avatar">
-                <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  <Image src="/avatar1.jpg" alt="User" width={48} height={48} />
-                </div>
-              </div>
-              <div className="avatar">
-                <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  <Image src="/avatar2.jpg" alt="User" width={48} height={48} />
-                </div>
-              </div>
-              <div className="avatar">
-                <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  <Image src="/avatar3.jpg" alt="User" width={48} height={48} />
-                </div>
-              </div>
-            </div>
-          </div>
-          <p className="text-2xl md:text-3xl font-medium italic text-foreground mb-4">
-            “Grâce à AliStock, nous avons donné <span className="text-primary font-bold">850 repas</span> en 3 mois.”
-          </p>
-          <p className="text-muted-foreground">
-            — Amina, Association Espoir
-          </p>
-        </div>
-      </section>
-
-      {/* SECTION APPEL À L’ACTION */}
-      <section className="py-20 px-4 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Prêt à faire la différence ?
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Transformez votre gestion de stocks
           </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Rejoignez des centaines d’associations qui gèrent leurs stocks et leurs dons avec simplicité.
+          <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto">
+            Rejoignez les associations qui utilisent AliStock pour gérer leurs stocks et maximiser leur impact social.
           </p>
 
-          {/* BOUTONS CTA FINAUX */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/login"
-              className="group btn btn-primary btn-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+              href="/sign-up"
+              className="px-8 py-3 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
             >
-              <CheckCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              <CheckCircle className="w-5 h-5" />
               Commencer gratuitement
-            </Link>env
-            <Link href="/dashboard" className="btn btn-ghost btn-lg">
-              Voir une démo
+            </Link>
+            <Link
+              href="/dashboard"
+              className="px-8 py-3 bg-slate-700 text-white rounded-lg font-semibold hover:bg-slate-600 transition-all duration-300"
+            >
+              Voir la démo
             </Link>
           </div>
 
-          {/* Texte rassurant */}
-          <div className="text-center mt-4">
-            <p className="text-sm text-muted-foreground">
-              Gratuit pour toujours • Aucune carte requise
-            </p>
-          </div>
+          <p className="text-sm text-slate-400 mt-6">
+            Gratuit • Aucune carte requise • Support 24/7
+          </p>
         </div>
       </section>
-
-      {/* FOOTER */}
-      <footer className="py-8 px-4 border-t">
-        <div className="max-w-6xl mx-auto text-center text-sm text-muted-foreground">
-          © 2025 AliStock. Conçu avec <Heart className="inline w-4 h-4 text-red-500 mx-1" /> pour les associations.
-        </div>
-      </footer>
     </Wrapper>
   );
 }

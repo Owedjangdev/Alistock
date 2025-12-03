@@ -1,5 +1,5 @@
 "use client";
-import { ListTree, Menu, PackagePlus, ShoppingBasket,  Warehouse,  X, History, Heart, Activity } from "lucide-react";
+import { Menu, Package, ShoppingBasket, PackagePlus, Heart, History, ListTree, X, Warehouse, Activity } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -8,143 +8,118 @@ import { checkAndAddAssociation } from "@/app/action";
 import Stock from "./Stock";
 
 const NavBar = () => {
-  const  {user}=useUser();
+  const { user } = useUser();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [IsOpenModal, setIsOpenModal]=useState(false)
+  const [IsOpenModal, setIsOpenModal] = useState(false);
 
+  const toggleConfirme = () => {
+    setIsOpenModal(!IsOpenModal);
+  };
 
-  const  togleConfirme= ()=>{
-setIsOpenModal(!IsOpenModal);
-
-  }
-  
   const pathname = usePathname();
 
-  
   const navLinks = [
-      { href: "/dashboard", label: "Dashboard", icon: Activity },
-      { href: "/products", label: "Produit ", icon: ShoppingBasket },
-    { href: "/new-product", label: "Nouveau produit ", icon: PackagePlus  },
-    { href: "/give", label: "Donner", icon: Heart },
-    { href: "/transactions", label: "Transactions", icon: History },
-    { href: "/category", label: "Catégories", icon: ListTree } 
-    
-
-
+    { href: "/dashboard", label: "Dashboard", icon: Activity },
+    { href: "/products", label: "Produits", icon: ShoppingBasket },
+    { href: "/new-product", label: "Nouveau", icon: PackagePlus },
+    { href: "/give", label: "Dons", icon: Heart },
+    { href: "/transactions", label: "Historique", icon: History },
+    { href: "/category", label: "Catégories", icon: ListTree },
   ];
 
-  
-    useEffect(() => {
-        if (user?.primaryEmailAddress?.emailAddress && user.fullName) {
-            checkAndAddAssociation(user?.primaryEmailAddress?.emailAddress, user.fullName)
-        }
-    }, [user])
+  useEffect(() => {
+    if (user?.primaryEmailAddress?.emailAddress && user.fullName) {
+      checkAndAddAssociation(user?.primaryEmailAddress?.emailAddress, user.fullName);
+    }
+  }, [user]);
 
-  
-
-  
   const renderLinks = (baseClass: string) => (
     <>
       {navLinks.map(({ href, label, icon: Icon }) => {
-        // Vérifie si le chemin d'accès actuel correspond au href du lien
         const isActive = pathname === href;
-
-        // Définit la classe active pour styliser différemment le bouton du lien
-        const activeClass = isActive ? "btn-primary" : "btn-ghost";
+        const activeClass = isActive
+          ? "bg-slate-900 text-white"
+          : "text-slate-700 hover:bg-slate-100";
 
         return (
-          
           <Link
             href={href}
-            key={href} // Clé unique pour chaque lien
-            className={`${baseClass} ${activeClass} btn-sm flex gap-2 items-center `}
+            key={href}
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${baseClass} ${activeClass}`}
           >
-            {/* Rendu de l'icône */}
-            <Icon className="W-4 h-4" />
-            {/* Rendu du label du lien */}
+            <Icon className="w-4 h-4" />
             {label}
           </Link>
         );
       })}
 
-
-      <button className="btn btn-sm" onClick={togleConfirme} > <Warehouse className="w-4 h-4"/>Gérer le Stock
-       
+      <button
+        className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-sm bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors duration-200"
+        onClick={toggleConfirme}
+      >
+        <Warehouse className="w-4 h-4" />
+        Stock
       </button>
-
     </>
   );
 
   return (
-    // Conteneur principal de la barre de navigation, avec des styles pour la bordure, le padding et la position relative
-    <div className="border-b border-base-300 px-5 md:px-[10%] py-4 relative">
-      {/* Conteneur interne pour l'alignement des éléments, visible sur tous les écrans */}
-      <div className="flex justify-between items-center ">
-        {/* Logo et le nom de l'application */}
-        <div className="flex items-center">
-          <div className="p-2 flex gap-2">
-            <PackagePlus className="w-6 h-6 text-primary" />
-            <span className="font-bold text-xl">AliStock</span>
+    <div className="border-b border-slate-200 bg-white sticky top-0 z-40">
+      <div className="px-5 md:px-[10%] py-4">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 font-bold text-xl text-slate-900 hover:opacity-80 transition-opacity">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-emerald-600 rounded-lg flex items-center justify-center">
+              <Package className="w-5 h-5 text-white" />
+            </div>
+            <span>AliStock</span>
+          </Link>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-1">
+            {renderLinks("btn-ghost")}
+          </div>
+
+          {/* Right Section */}
+          <div className="flex items-center gap-4">
+            <button
+              className="md:hidden btn btn-sm btn-ghost"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <UserButton />
           </div>
         </div>
 
-        {/* Bouton pour ouvrir le menu mobile */}
-        <button className="btn w-fit lg:hidden btn-sm" onClick={() => setMenuOpen(!menuOpen)}>
-          <Menu className="w-4 h-4" /> {/* Icône de menu */}
-        </button>
-
-        {/* Conteneur des liens de navigation, visible uniquement sur les grands écrans (hidden sm:flex) */}
-        <div className="hidden space-x-2 sm:flex items-center ">
-  
-          {/* Appel de la fonction utilitaire pour afficher les liens */}
-          {renderLinks("btn")}
-          <UserButton/>
-        </div>
-      </div>
-
-      {/* Menu mobile en plein écran */}
-      <div
-        // Classes pour le style, l'animation et le positionnement absolu
-        className={`absolute top-0 w-full bg-base-100 h-screen flex flex-col gap-2 p-4
-          transition-all duration-300 sm:hidden z-50 ${
-            // La classe de positionnement change en fonction de l'état "menuOpen"
-            menuOpen ? "left-0" : "left-full"
+        {/* Mobile Nav */}
+        <div
+          className={`absolute top-full left-0 w-full bg-white border-b border-slate-200 transition-all duration-300 md:hidden z-50 overflow-hidden ${
+            menuOpen ? "max-h-96" : "max-h-0"
           }`}
-      >
-        {/* Conteneur du bouton de fermeture du menu mobile */}
-        <div className="flex justify-between items-center ">
-          {/* Bouton pour fermer le menu */}
-          <button className="btn w-fit lg:hidden btn-sm" onClick={() => setMenuOpen(!menuOpen)}>
-            <X className="w-4 h-4" /> {/* Icône de fermeture */}
-          </button>
-          <UserButton/>
+        >
+          <div className="p-4 space-y-2 flex flex-col">
+            {renderLinks("w-full justify-start")}
+          </div>
         </div>
-        {/* Affiche les liens de navigation dans le menu mobile */}
-        {renderLinks("btn")}
-        
       </div>
 
-        {
-            IsOpenModal && (
-                <div 
-                    className="fixed inset-0  bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-                >
-                    <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white shadow-xl rounded-xl transform scale-100 transition-transform duration-300">
-                        <button 
-                            className="absolute right-4 top-4 btn btn-sm btn-circle btn-ghost z-10"
-                            onClick={togleConfirme}
-                        >
-                            ✕
-                        </button>
-                        <div className="p-8">
-                            <Stock/>
-                        </div>
-                    </div>
-                </div>
-            )
-        }
-
-
+      {/* Stock Modal */}
+      {IsOpenModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white shadow-2xl rounded-xl">
+            <button
+              className="absolute right-4 top-4 btn btn-sm btn-circle btn-ghost z-10"
+              onClick={toggleConfirme}
+            >
+              ✕
+            </button>
+            <div className="p-8">
+              <Stock />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
