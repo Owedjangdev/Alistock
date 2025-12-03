@@ -3,7 +3,7 @@ import Wrapper from "@/components/Wrapper";
 import { useUser } from "@clerk/nextjs";
 import { readProducts } from "../action";
 import { useEffect, useState } from "react";
-import { Product } from "../../type";
+import { Product } from "../../../type";
 import ImageCompo from "@/components/ImageCompo";
 import { Plus, Package, Heart } from "lucide-react";
 

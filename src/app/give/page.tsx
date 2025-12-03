@@ -5,7 +5,7 @@ import { readProducts, createGiveTransaction, getGiveStats } from "../action";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { Product } from "../../type";
+import { Product } from "../../../type";
 import EmptyState from "@/components/EmptyState";
 import ImageCompo from "@/components/ImageCompo";
 import { 
@@ -57,12 +57,12 @@ const Page = () => {
         ]);
         
         if (productsData) {
-          // Afficher tous les produits, même avec stock 0; le bouton sera désactivé si nécessaire
-          setProducts(productsData);
-        }
-        if (statsData) {
-          setStats(statsData);
-        }
+           // Afficher tous les produits, même avec stock 0; le bouton sera désactivé si nécessaire
+           setProducts(productsData);
+         }
+         if (statsData && !('error' in statsData)) {
+           setStats(statsData);
+         }
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);
         toast.error("Erreur lors du chargement des données");

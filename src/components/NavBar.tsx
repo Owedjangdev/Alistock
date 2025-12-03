@@ -56,7 +56,7 @@ setIsOpenModal(!IsOpenModal);
           
           <Link
             href={href}
-            key={href} // Clé unique pour chaque lien, nécessaire pour les listes en React
+            key={href} // Clé unique pour chaque lien
             className={`${baseClass} ${activeClass} btn-sm flex gap-2 items-center `}
           >
             {/* Rendu de l'icône */}
@@ -89,7 +89,7 @@ setIsOpenModal(!IsOpenModal);
         </div>
 
         {/* Bouton pour ouvrir le menu mobile */}
-        <button className="btn w-fit sm:hidden btn-sm" onClick={() => setMenuOpen(!menuOpen)}>
+        <button className="btn w-fit lg:hidden btn-sm" onClick={() => setMenuOpen(!menuOpen)}>
           <Menu className="w-4 h-4" /> {/* Icône de menu */}
         </button>
 
@@ -114,7 +114,7 @@ setIsOpenModal(!IsOpenModal);
         {/* Conteneur du bouton de fermeture du menu mobile */}
         <div className="flex justify-between items-center ">
           {/* Bouton pour fermer le menu */}
-          <button className="btn w-fit sm:hidden btn-sm" onClick={() => setMenuOpen(!menuOpen)}>
+          <button className="btn w-fit lg:hidden btn-sm" onClick={() => setMenuOpen(!menuOpen)}>
             <X className="w-4 h-4" /> {/* Icône de fermeture */}
           </button>
           <UserButton/>
@@ -127,7 +127,7 @@ setIsOpenModal(!IsOpenModal);
         {
             IsOpenModal && (
                 <div 
-                    className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+                    className="fixed inset-0  bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
                 >
                     <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white shadow-xl rounded-xl transform scale-100 transition-transform duration-300">
                         <button 

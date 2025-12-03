@@ -31,7 +31,7 @@ const Page = () => {
     }
   }
   useEffect(() => {
-    loadCategories()
+    loadCategories();
   }, [email])
 
   const openCreateModal = () => {

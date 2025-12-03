@@ -33,7 +33,7 @@ const Page = () => {
   const email = user?.primaryEmailAddress?.emailAddress as string;
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [stats, setStats] = useState<TransactionStats | null>(null);
+  const [stats, setStats] = useState<TransactionStats | null | { error: any }>(null);
   const [loading, setLoading] = useState(true);
   const [filterType, setFilterType] = useState<string>("ALL");
 
@@ -47,7 +47,7 @@ const Page = () => {
         ]);
         
         if (transactionsData) setTransactions(transactionsData);
-        if (statsData) setStats(statsData);
+        if (statsData && !('error' in statsData)) setStats(statsData);
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);
       } finally {
@@ -122,7 +122,7 @@ const Page = () => {
         </div>
 
         {/* Stats Cards */}
-        {stats && (
+        {stats && !('error' in stats) && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <div className="card bg-base-100 shadow-sm border border-base-200">
               <div className="card-body p-4">

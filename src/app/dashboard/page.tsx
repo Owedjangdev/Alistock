@@ -13,10 +13,10 @@ const Page = () => {
   const email = user?.primaryEmailAddress?.emailAddress as string;
 
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [transactions, setTransactions] = useState<Array<{ id: string; type: string; quantity: number; createdAt: string; productName: string; categoryName?: string; productUnit: string }>>([]);
-  const [txnStats, setTxnStats] = useState<{ totalTransactions: number; addTransactions: number; removeTransactions: number; totalQuantityAdded: number; totalQuantityRemoved: number; giveTransactions: number; totalQuantityGiven: number } | null>(null);
-  const [giveStats, setGiveStats] = useState<{ totalGiveTransactions: number; totalQuantityGiven: number; uniqueRecipients: number } | null>(null);
+   const [products, setProducts] = useState<Product[]>([]);
+   const [transactions, setTransactions] = useState<Array<{ id: string; type: string; quantity: number; createdAt: string; productName: string; categoryName?: string; productUnit: string }>>([]);
+   const [txnStats, setTxnStats] = useState<{ totalTransactions: number; addTransactions: number; removeTransactions: number; totalQuantityAdded: number; totalQuantityRemoved: number; giveTransactions: number; totalQuantityGiven: number } | null | { error: any }>(null);
+   const [giveStats, setGiveStats] = useState<{ totalGiveTransactions: number; totalQuantityGiven: number; uniqueRecipients: number } | null | { error: any }>(null);
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [categoryFilter, setCategoryFilter] = useState<string>("");
@@ -36,9 +36,9 @@ const Page = () => {
           getGiveStats(email)
         ]);
         if (p) setProducts(p);
-        if (t) setTransactions(t);
-        if (ts) setTxnStats(ts);
-        if (gs) setGiveStats(gs);
+         if (t) setTransactions(t);
+         if (ts && !('error' in ts)) setTxnStats(ts);
+         if (gs && !('error' in gs)) setGiveStats(gs);
       } catch {
         // noop; handled by UI states
       } finally {
@@ -266,7 +266,7 @@ const Page = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Dons</p>
-                  <p className="text-2xl font-bold text-red-500">{giveStats?.totalGiveTransactions ?? 0}</p>
+                  <p className="text-2xl font-bold text-red-500">{(giveStats && !('error' in giveStats)) ? giveStats.totalGiveTransactions : 0}</p>
                 </div>
                 <Heart className="w-8 h-8 text-red-500" />
               </div>
